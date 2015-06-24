@@ -26,6 +26,16 @@ Bundle 'godlygeek/tabular'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'vim-scripts/YankRing.vim'
+Bundle 'christoomey/vim-tmux-navigator'
+Bundle 'noprompt/vim-yardoc'
+Bundle 'thoughtbot/vim-rspec'
+Bundle 'jgdavey/tslime.vim'
+Bundle 'mattn/gist-vim'
+Bundle 'mattn/webapi-vim'
+Bundle 'matze/vim-move'
+Bundle 'lsdr/monokai'
+Bundle 'terryma/vim-multiple-cursors'
+"Bundle 'derekwyatt/vim-scala'
 
 let mapleader = ","
 
@@ -75,7 +85,8 @@ set nofoldenable        "dont fold by default
 
 set wildmode=list:longest   "make cmdline tab completion similar to bash
 set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
-set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore=*.o,*.obj,*~,*.log "stuff to ignore when tab completing
+set wildignore+=*/log/*
 
 set formatoptions-=o "dont continue comments when pushing o/O
 
@@ -103,7 +114,7 @@ set hidden
 
 "statusline setup
 set statusline =%#identifier#
-set statusline+=[%f]    "tail of the filename
+set statusline+=[%F]    "tail of the filename
 set statusline+=%*
 
 "display a warning if fileformat isnt unix
@@ -294,7 +305,6 @@ endfunction
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR>
 
-
 "jump to last cursor position when opening a file
 "dont do it when writing a commit log entry
 autocmd BufReadPost * call SetCursorPosition()
@@ -324,14 +334,12 @@ autocmd BufReadPost fugitive://*
 " Copied from ~/.vimrc, so I can leave only one
 " line in ~/.vimrc file: source ~/.vim/vimrc
 
-"colorscheme mayansmoke
-set background=light
-colorscheme solarized
-
 inoremap jj <ESC><ESC>
 
 nnoremap <F5> :GundoToggle<CR>
-imap <S-Tab> <C-o><<
+
+"imap <S-Tab> <C-o><<
+imap <S-Tab> <C-x><C-o><<
 
 "key mapping for tab navigation
 nmap <Tab> gt
@@ -437,7 +445,9 @@ noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 nnoremap D d$
 
 " Don't move on *
-nnoremap * *<c-o>
+" nnoremap * *<c-o>
+" Don't move when you use *
+nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
 
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
@@ -514,4 +524,26 @@ hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 " autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 
 "improve autocomplete menu color
-highlight Pmenu ctermbg=238 gui=bold
+"highlight Pmenu ctermbg=238 gui=bold
+
+iabbr bpry require'pry';binding.pry
+map <Leader>bp orequire'pry';binding.pry<esc>:w<cr>
+
+" use old regexp syntax to speed up ruby syntax highlighting
+set re=1
+
+" another speed up
+set ttyfast
+set lazyredraw
+
+colorscheme solarized
+set background=dark
+
+let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
+" vim-rspec mappings
+map <Leader>sf :call RunCurrentSpecFile()<CR>
+map <Leader>sc :call RunNearestSpec()<CR>
+map <Leader>sl :call RunLastSpec()<CR>
+map <Leader>sa :call RunAllSpecs()<CR>
+
+let g:move_key_modifier = 'A'
