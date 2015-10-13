@@ -9,7 +9,7 @@ Bundle 'gmarik/vundle'
 Bundle 'gregsexton/MatchTag'
 Bundle 'mileszs/ack.vim'
 Bundle 'vim-scripts/bufexplorer.zip'
-Bundle 'wincent/Command-T'
+"Bundle 'wincent/Command-T'
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-fugitive'
 Bundle 'sjl/gundo.vim'
@@ -35,6 +35,8 @@ Bundle 'mattn/webapi-vim'
 Bundle 'matze/vim-move'
 Bundle 'lsdr/monokai'
 Bundle 'terryma/vim-multiple-cursors'
+Bundle 'elixir-lang/vim-elixir'
+Bundle 'kien/ctrlp.vim'
 "Bundle 'derekwyatt/vim-scala'
 
 let mapleader = ","
@@ -50,6 +52,7 @@ set backspace=indent,eol,start
 
 set showcmd     "show incomplete cmds down the bottom
 set showmode    "show current mode down the bottom
+set cursorline
 
 set number      "show line numbers
 
@@ -87,6 +90,7 @@ set wildmode=list:longest   "make cmdline tab completion similar to bash
 set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
 set wildignore=*.o,*.obj,*~,*.log "stuff to ignore when tab completing
 set wildignore+=*/log/*
+set wildignore+=*/_build/*
 
 set formatoptions-=o "dont continue comments when pushing o/O
 
@@ -285,6 +289,13 @@ endfunction
 let g:NERDTreeMouseMode = 2
 let g:NERDTreeWinSize = 40
 
+" move vertically by visual line
+nnoremap j gj
+nnoremap k gk
+
+" highlight last inserted text
+nnoremap gV `[v`]
+
 "make <c-l> clear the highlight as well as redraw
 nnoremap <C-L> :nohls<CR><C-L>
 inoremap <C-L> <C-O>:nohls<CR>
@@ -349,10 +360,19 @@ nmap <S-Tab> gT
 nnoremap <leader>b :BufExplorer<cr>
 
 silent! nmap <silent> <Leader>p :NERDTreeToggle<CR>
-silent! nmap <silent> <Leader>t :CommandT<CR>
+"silent! nmap <silent> <Leader>t :CommandT<CR>
 
-let g:CommandTMaxHeight=20
-let g:CommandTMatchWindowAtTop=1
+" CtrlP settings
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_map = '<Leader>t'
+let g:ctrlp_cmd = 'CtrlP'
+"silent! nmap <silent> <Leader>t :CtrlPMixed<CR>
+
+"let g:CommandTMaxHeight=20
+"let g:CommandTMatchWindowAtTop=1
 
 " Copied from Steve Losh's vimrc. Thanks, Steve!
 
@@ -536,7 +556,8 @@ set re=1
 set ttyfast
 set lazyredraw
 
-colorscheme solarized
+colorscheme molokai
+"let g:rehash256 = 1
 set background=dark
 
 let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
@@ -547,3 +568,11 @@ map <Leader>sl :call RunLastSpec()<CR>
 map <Leader>sa :call RunAllSpecs()<CR>
 
 let g:move_key_modifier = 'A'
+
+
+" Use ag with ack
+let g:ackprg = 'ag --nogroup --nocolor --column'
+"let g:ackprg = 'ag --vimgrep'
+
+" open ag.vim
+nnoremap <leader>a :Ag
