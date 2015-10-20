@@ -363,7 +363,7 @@ silent! nmap <silent> <Leader>p :NERDTreeToggle<CR>
 "silent! nmap <silent> <Leader>t :CommandT<CR>
 
 " CtrlP settings
-let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_match_window = 'top,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
@@ -556,7 +556,7 @@ set re=1
 set ttyfast
 set lazyredraw
 
-colorscheme molokai
+colorscheme solarized
 "let g:rehash256 = 1
 set background=dark
 
