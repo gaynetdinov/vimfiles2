@@ -9,7 +9,6 @@ Bundle 'gmarik/vundle'
 Bundle 'gregsexton/MatchTag'
 Bundle 'mileszs/ack.vim'
 Bundle 'vim-scripts/bufexplorer.zip'
-"Bundle 'wincent/Command-T'
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-fugitive'
 Bundle 'sjl/gundo.vim'
@@ -37,7 +36,7 @@ Bundle 'lsdr/monokai'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'elixir-lang/vim-elixir'
 Bundle 'kien/ctrlp.vim'
-"Bundle 'derekwyatt/vim-scala'
+Plugin 'plasticboy/vim-markdown'
 
 let mapleader = ","
 
@@ -330,6 +329,7 @@ endfunction
 
 "spell check when writing commit logs
 autocmd filetype svn,*commit* setlocal spell
+autocmd BufRead,BufNewFile *.md setlocal spell
 
 "http://vimcasts.org/episodes/fugitive-vim-browsing-the-git-object-database/
 "hacks from above (the url, not jesus) to delete fugitive buffers when we
@@ -556,9 +556,8 @@ set re=1
 set ttyfast
 set lazyredraw
 
+"colorscheme Tomorrow-Night-Eighties
 colorscheme solarized
-"let g:rehash256 = 1
-set background=dark
 
 let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
 " vim-rspec mappings
@@ -576,3 +575,7 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " open ag.vim
 nnoremap <leader>a :Ag
+
+" ctags
+map <silent> <Leader>rt :!retag<cr>
+nmap <F8> :TagbarToggle<CR>
